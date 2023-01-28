@@ -5,14 +5,8 @@ function [] = plotHist(bins,freq, title_plot, varargin)
 if isempty(varargin) == 0
     figure
     hold on
-    imshow(varargin{1,1},[min(min(varargin{1})) max(max(varargin{1}))])
+    subplot(1,2,1), imshow(varargin{1,1},[min(min(varargin{1})) max(max(varargin{1}))])
     colorbar('eastoutside')
-    hold off
-else
-    figure
-    subplot(1,2,1)
-    hold on
-    bar(bins,freq,'b')
     title('Image')
     hold off
     subplot(1,2,2)
@@ -23,6 +17,15 @@ else
     xlabel('Intensity')
     hold off
     sgtitle(title_plot) 
+    set(gcf, 'Position', [100, 100, 1100, 600])
+else
+    figure
+    hold on
+    bar(bins,freq,'b')
+    title(title_plot)
+    ylabel('Intensity Histogram')
+    xlabel('Intensity')
+    hold off
 end
 
 

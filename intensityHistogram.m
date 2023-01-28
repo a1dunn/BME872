@@ -6,15 +6,20 @@ function [bins, freq] =  intensityHistogram(img, slice, mode, norm, first_bin_re
 % determine which slide to determine histogram for
 
 [x, y, z] = size(img);
-max_inten = max(max(max(img)));
-min_inten = min(min(min(img)));
+if mode == 0
+    max_inten = max(max(max(img(:,:, slice))));
+    min_inten = min(min(min(img(:,:, slice))));
+else
+    max_inten = max(max(max(img)));
+    min_inten = min(min(min(img)));
+end
 
 if first_bin_remove == 1
-    bins = min_inten+1:max_inten;
-    freq = zeros(1, max_inten-min_inten);
-else
-    bins = min_inten:max_inten;
+    bins = min_inten+1:max_inten+1;
     freq = zeros(1, max_inten-min_inten+1);
+else
+    bins = min_inten:max_inten+1;
+    freq = zeros(1, max_inten-min_inten+2);
 end
 if mode == 0
     for i = 1:x
@@ -23,7 +28,7 @@ if mode == 0
             if (intensity == min_inten) && (first_bin_remove)
                 %pass
             else
-                freq(intensity+1-min_inten+1) = freq(intensity+1-min_inten+1) + 1;
+                freq(intensity-min_inten+1) = freq(intensity-min_inten+1) + 1;
             end
         end
     end
@@ -33,7 +38,11 @@ elseif mode == 1
         for i = 1:x
             for j = 1:y
                 intensity = img(i, j, k);
-                freq(intensity+1) = freq(intensity+1) + 1;
+                if (intensity == min_inten) && (first_bin_remove)
+                    %pass
+                else
+                    freq(intensity-min_inten+1) = freq(intensity-min_inten+1) + 1;
+                end
             end
         end
     end
