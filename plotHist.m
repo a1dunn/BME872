@@ -13,7 +13,7 @@ if isempty(varargin) == 0
     hold on
     bar(bins,freq,'b')
     title('Intensity Histogram')
-    ylabel('Intensity Histogram')
+    ylabel('Frequency')
     xlabel('Intensity')
     hold off
     sgtitle(title_plot) 
@@ -23,7 +23,7 @@ else
     hold on
     bar(bins,freq,'b')
     title(title_plot)
-    ylabel('Intensity Histogram')
+    ylabel('Frequency')
     xlabel('Intensity')
     hold off
 end
