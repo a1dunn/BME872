@@ -2,13 +2,15 @@ close all
 clear all
 clc
 
-folder = 'C:\Users\DunnA\Documents\YEAR4\BME872\872Labz\LungCT';
+num_MRI_img = 20;
+
+folder = 'C:\Users\cassi\OneDrive\Documents\BME 872\Labs\Lab 1\Lab1 - LungCT\Lab1 - LungCT';
 filename = 'training_post';
 imageFormat = '.mhd';
 
 [volCT, infoCT] = imageRead(folder, imageFormat, filename);
 
-folder = 'C:\Users\DunnA\Documents\YEAR4\BME872\872Labz\BrainMRI1';
+folder = 'C:\Users\cassi\OneDrive\Documents\BME 872\Labs\Lab 1\Lab1 - BrainMRI1\Lab1 - BrainMRI1';
 imageFormat = '.dcm';
 
 for i_frames_brain_MRI = 1:20
@@ -19,17 +21,25 @@ for i_frames_brain_MRI = 1:20
         filename = strcat('brain_0', num2str(i_frames_brain_MRI));
     end
     
-[volBrain(:,:,i_frames_brain_MRI), infoBrain] = imageRead(folder, imageFormat, filename);
+[volBrain(:,:,i_frames_brain_MRI), infoBrain(i_frames_brain_MRI)] = imageRead(folder, imageFormat, filename);
 end
+
+folder = 'C:\Users\cassi\OneDrive\Documents\BME 872\Labs\Lab 1';
+filename = 'PNGTest';
+imageFormat = '.png';
+
+[img_png, info_png] = imageRead(folder, imageFormat, filename);
+% folder = 'C:\Users\DunnA\Documents\YEAR4\BME872\872Labz\BrainMRI1';
+% imageFormat = '.dcm';
 
 
 %% Plot a single example of a lung CT image
 
-% figure
-% imshow(volCT.data(:,:,volCT.size(3)/2),[min(min(volCT.data(:,:,volCT.size(3)/2))) max(max(volCT.data(:,:,volCT.size(3)/2)))])
-% colorbar('eastoutside')
-% clear title
-% title('Lung CT - Slice 143')
+figure
+imshow(volCT.data(:,:,volCT.size(3)/2),[min(min(volCT.data(:,:,volCT.size(3)/2))) max(max(volCT.data(:,:,volCT.size(3)/2)))])
+colorbar('eastoutside')
+clear title
+title('Lung CT - Slice 143')
 
 %% Plot a single example of a brain MRI image
 
