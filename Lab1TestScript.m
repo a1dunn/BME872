@@ -13,6 +13,8 @@ imageFormat = '.mhd';
 folder = 'C:\Users\cassi\OneDrive\Documents\BME 872\Labs\Lab 1\Lab1 - BrainMRI1\Lab1 - BrainMRI1';
 imageFormat = '.dcm';
 
+[~, infoBrain] = imageRead(folder, imageFormat, 'brain_001'); % newly added
+
 for i_frames_brain_MRI = 1:20
     filename = 'brain_0';
     if i_frames_brain_MRI<10
@@ -21,7 +23,7 @@ for i_frames_brain_MRI = 1:20
         filename = strcat('brain_0', num2str(i_frames_brain_MRI));
     end
     
-[volBrain(:,:,i_frames_brain_MRI), infoBrain(i_frames_brain_MRI)] = imageRead(folder, imageFormat, filename);
+[volBrain(:,:,i_frames_brain_MRI), infoBrain_all(i_frames_brain_MRI)] = imageRead(folder, imageFormat, filename);
 end
 
 folder = 'C:\Users\cassi\OneDrive\Documents\BME 872\Labs\Lab 1';
@@ -40,6 +42,8 @@ imshow(volCT.data(:,:,volCT.size(3)/2),[min(min(volCT.data(:,:,volCT.size(3)/2))
 colorbar('eastoutside')
 clear title
 title('Lung CT - Slice 143')
+
+infoBrain.SpacingBetweenSlices
 
 %% Plot a single example of a brain MRI image
 
@@ -93,3 +97,5 @@ B = 100;
 out_img = apply_point_tfrm(volBrain(:,:,12), C, B);
 [bins, freq] = intensityHistogram(out_img, 1, 0, 0, 1);
 plotHist(bins,freq, "2.3.1a: Brain 1 MRI Slice 12, C = , B = ", out_img)
+
+close all

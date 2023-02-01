@@ -46,8 +46,6 @@ path = 'C:\Users\cassi\OneDrive\Documents\BME 872\Labs\Lab 1\Lab1 - LungCT\Lab1 
 imageWrite(path, '.png', sliceLungCT, 'imgCT PNG')
 [imgCT_PNG, info] = imageRead(path, '.png', 'imgCT PNG');
 
-imshow(img)
-
 figure
 subplot(1,2,1)
 hold on
@@ -69,3 +67,103 @@ b = uint16(20.*ones(4,4));
 x_uint16 = uint16(x_uint8);
 
 y = 20.*x_uint16 + b
+
+%% 2.3.1 QUESTION 3
+folder = 'C:\Users\cassi\OneDrive\Documents\BME 872\Labs\Lab 1\Lab1 - LungCT\Lab1 - LungCT';
+imageFormat = '.mhd';
+filename ='training_post';
+[volCT_post, ~] = imageRead(folder, imageFormat, filename);
+filename = 'training_pre19mm';
+[volCT_pre, ~] = imageRead(folder, imageFormat, filename);
+
+[out_img] = image_subtraction(volCT_post.data, volCT_pre.data);
+
+figure
+subplot(1,3,1)
+hold on
+imshow(volCT_pre.data(:,:,volCT_pre.size(3)/2),[min(min(volCT_pre.data(:,:,volCT_pre.size(3)/2))) max(max(volCT_pre.data(:,:,volCT_pre.size(3)/2)))])
+colorbar('eastoutside')
+clear title
+title('Pre-Contrast Lung CT - Slice 143')
+hold off
+subplot(1,3,2)
+hold on
+imshow(volCT_post.data(:,:,volCT_post.size(3)/2),[min(min(volCT_post.data(:,:,volCT_post.size(3)/2))) max(max(volCT_post.data(:,:,volCT_post.size(3)/2)))])
+colorbar('eastoutside')
+title('Post-Contrast Lung CT - Slice 143')
+hold off
+subplot(1,3,3)
+hold on
+imshow(out_img(:,:,143),[min(min(volCT_post.data(:,:,volCT_post.size(3)/2))) max(max(volCT_post.data(:,:,volCT_post.size(3)/2)))])
+colorbar('eastoutside')
+title('Subtracted (Perfusion) Lung CT - Slice 143')
+hold off
+
+slice = 80;
+figure
+subplot(1,3,1)
+hold on
+imshow(volCT_pre.data(:,:,slice),[min(min(volCT_pre.data(:,:,slice))) max(max(volCT_pre.data(:,:,slice)))])
+colorbar('eastoutside')
+clear title
+title('Pre-Contrast Lung CT - Slice 80')
+hold off
+subplot(1,3,2)
+hold on
+imshow(volCT_post.data(:,:,slice),[min(min(volCT_post.data(:,:,slice))) max(max(volCT_post.data(:,:,slice)))])
+colorbar('eastoutside')
+title('Post-Contrast Lung CT - Slice 80')
+hold off
+subplot(1,3,3)
+hold on
+imshow(out_img(:,:,slice),[min(min(volCT_post.data(:,:,slice))) max(max(volCT_post.data(:,:,slice)))])
+colorbar('eastoutside')
+title('Subtracted (Perfusion) Lung CT - Slice 80')
+hold off
+
+slice = 200;
+figure
+subplot(1,3,1)
+hold on
+imshow(volCT_pre.data(:,:,slice),[min(min(volCT_pre.data(:,:,slice))) max(max(volCT_pre.data(:,:,slice)))])
+colorbar('eastoutside')
+clear title
+title('Pre-Contrast Lung CT - Slice 200')
+hold off
+subplot(1,3,2)
+hold on
+imshow(volCT_post.data(:,:,slice),[min(min(volCT_post.data(:,:,slice))) max(max(volCT_post.data(:,:,slice)))])
+colorbar('eastoutside')
+title('Post-Contrast Lung CT - Slice 200')
+hold off
+subplot(1,3,3)
+hold on
+imshow(out_img(:,:,slice),[min(min(volCT_post.data(:,:,slice))) max(max(volCT_post.data(:,:,slice)))])
+colorbar('eastoutside')
+title('Subtracted (Perfusion) Lung CT - Slice 200')
+hold off
+
+
+%% Image Subtraction 3b)
+
+folder = 'C:\Users\cassi\OneDrive\Documents\BME 872\Labs\Lab 1\Lab1 - LungCT\Lab1 - LungCT';
+imageFormat = '.mhd';
+filename ='training_mask';
+[volCT_mask, ~] = imageRead(folder, imageFormat, filename);
+%perfusion_masked = out_img.*
+
+for i_slice = 1:286
+    perfusion_masked(:,:,i_slice) = out_img(:,:,i_slice).*volCT_mask.data(:,:,i_slice);
+end
+
+%% 10x
+
+filename ='noise_10x_post';
+[volCT_noise, ~] = imageRead(folder, imageFormat, filename);
+[out_img] = image_subtraction(volCT_noise.data,volCT_post.data);
+[bins, freq] = intensityHistogram(out_img, 143, 0, 0, 0);
+plotHist(bins,freq, "Lung CT Noise - Slice 143", out_img(:,:,143))
+[bins, freq] = intensityHistogram(out_img, 80, 0, 0, 0);
+plotHist(bins,freq, "Lung CT Noise - Slice 80", out_img(:,:,80))
+[bins, freq] = intensityHistogram(out_img, 200, 0, 0, 0);
+plotHist(bins,freq, "Lung CT Noise - Slice 200", out_img(:,:,200))
