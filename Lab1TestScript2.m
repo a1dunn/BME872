@@ -62,3 +62,10 @@ imshow(imgCT_PNG,[min(min(imgCT_PNG)) max(max(imgCT_PNG))])
 colorbar('eastoutside')
 title('Saved as PNG and Reread Lung CT - Slice 143')
 hold off
+
+x = [1 2 3 4; 5 6 7 8; 9 10 11 12; 13 14 15 16];
+x_uint8 = uint8(x)
+b = uint16(20.*ones(4,4));
+x_uint16 = uint16(x_uint8);
+
+y = 20.*x_uint16 + b
