@@ -37,7 +37,7 @@ figure
     [bins, freq] = intensityHistogram(out_img(:, :, i), 1, 0, 0, 0);
     plotHist(bins,freq, "2.3.1-2b): Masked Tissue Lung CT Slice "+i, out_img(:, :, i))
 
-    colour_img = overlay_colour ( volCT.data(:, :, i) , volCTMask.data(:, :, i) ,[255,0,0], 0.50);
+    colour_img = overlay_colour ( volCT.data(:, :, i) , volCTMask.data(:, :, i) ,[255,0,0], 0.5);
     figure
-    imshow(colour_img, [min(min(varargin{1})) max(max(varargin{1}))])
+    imshow(colour_img) 
 end

@@ -21,7 +21,7 @@ else
     bins = min_inten:max_inten+1;
     freq = zeros(1, max_inten-min_inten+2);
 end
-if mode == 0
+if mode == 0  
     for i = 1:x
         for j = 1:y
             intensity = img(i, j, slice);
