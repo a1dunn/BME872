@@ -83,9 +83,11 @@ filename ='training_mask';
 inv_mask_HU_scale = -min(min(min(volCT_post.data))).*(~volCT_mask.data);
 inv_mask_HU_scale(inv_mask_HU_scale == 0) = 1;
 perfusion_mask = apply_mask(out_img,volCT_mask.data);
-perfusion_masked_image = image_subtraction(perfusion_masked,inv_mask_HU_scale);
+perfusion_masked_image = image_subtraction(perfusion_mask,inv_mask_HU_scale);
 transparency_mask = volCT_mask.data;
-transparency_mask(transparency_mask == 0) = [];
+transparency_mask(transparency_mask == 0) = NaN;
+
+%%
 
 for i_slice = [80 143 200]
     figure
@@ -105,15 +107,19 @@ for i_slice = [80 143 200]
     hold off
     subplot(2,2,3)
     hold on
-    imshow(perfusion_masked(:,:,i_slice),[min(min(volCT_post.data(:,:,i_slice))) max(max(volCT_post.data(:,:,i_slice)))])
+    imshow(perfusion_masked_image(:,:,i_slice),[min(min(volCT_post.data(:,:,i_slice))) max(max(volCT_post.data(:,:,i_slice)))])
     colorbar('eastoutside')
     title('Masked Perfusion Intensity Image')
     hold off
     subplot(2,2,4)
+    %original_w_perf_mask = volCT_pre.data(:,:,i_slice).*(~volCT_mask.data(:,:,i_slice)) + perfusion_mask(:,:,i_slice);
+    %original_w_perf_mask = volCT_pre.data(:,:,i_slice).*perfusion_mask(:,:,i_slice);
+    [original_w_perf_mask] = overlay_colour(volCT_pre.data(:,:,i_slice), perfusion_mask(:,:,i_slice), [255 0 0], 0.5);
     hold on
-    imshow(volCT_pre.data(:,:,i_slice),[min(min(volCT_pre.data(:,:,i_slice))) max(max(volCT_pre.data(:,:,i_slice)))])
+    imshow(original_w_perf_mask,[min(min(volCT_pre.data(:,:,i_slice))) max(max(volCT_pre.data(:,:,i_slice)))]);
     colorbar('eastoutside')
-    imshow(perfusion_mask(:,:,i_slice),[min(min(volCT_pre.data(:,:,i_slice))) max(max(volCT_pre.data(:,:,i_slice)))])
+    colormap(gray)
+    % imshow(perfusion_mask(:,:,i_slice), 'AlphaData', transparency_mask(:,:,i_slice))
     %image(perfusion_mask(:,:,i_slice),[min(min(volCT_pre.data(:,:,i_slice))) max(max(volCT_pre.data(:,:,i_slice)))]); %, 'AlphaData', transparency_mask(:,:,i_slice))
     % imshow(perfusion_overlay(:,:,i_slice),[min(min(volCT_post.data(:,:,i_slice))) max(max(volCT_post.data(:,:,i_slice)))])
     % colorbar('eastoutside')
