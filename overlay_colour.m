@@ -1,27 +1,15 @@
 function [out_img] = overlay_colour ( img , img_mask , colour, trans)
     [rows, cols, channels] = size(img);
-    out_img = zeros(rows, cols, 3);
-    out_img = out_img - min(min(img));
-    colour_mask = zeros(rows, cols, 3);
-    out_img(:, :, 1) = img;
-    out_img(:, :, 2) = img;
-    out_img(:, :, 3) = img;
-    colour_mask(:, :, 1) = colour(1);
-    colour_mask(:, :, 2) = colour(2);
-    colour_mask(:, :, 3) = colour(3);
-    for k = 1:channels
-        for i = 1:rows
-            for j = 1:cols
-                if (img_mask(i, j, k) == 0)
-                    colour_mask(i, j, 1) = 0;
-                    colour_mask(i, j, 2) = 0;
-                    colour_mask(i, j, 3) = 0;
-                else
-                    colour_mask(i, j, k) = colour_mask(i, j, k);
-            end
-        end
+    img = img - min(min(min(img)));
+    img_uint16 = uint16(65536*mat2gray(img));
+    img_mask_uint16 = uint16(img_mask);
+
+    % convert the input image to 32-bit integers
+    img_uint16 = repmat(img_uint16, [1, 1, 3]);
+    img_mask_uint16 = repmat(img_mask_uint16, [1, 1, 3]);
+    for i = 1:3
+        img_mask_uint16(:, :, i) = img_mask_uint16(:, :, i) * colour(i);
     end
-   
-    %img_mask = img_mask .* repmat(reshape(colour, [1, 1, 3]), [rows, cols, 1]);
-    out_img = out_img + trans * colour_mask;
+    out_img = img_uint16 + trans * img_mask_uint16;
+    out_img = im2uint8(out_img);
 end
