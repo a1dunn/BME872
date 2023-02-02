@@ -77,6 +77,7 @@ filename = 'training_pre19mm';
 [volCT_pre, ~] = imageRead(folder, imageFormat, filename);
 
 [out_img] = image_subtraction(volCT_post.data, volCT_pre.data);
+[out_img] = image_subtraction(volCT_post.data, volCT_pre.data);
 
 figure
 subplot(1,3,1)
@@ -150,11 +151,48 @@ folder = 'C:\Users\cassi\OneDrive\Documents\BME 872\Labs\Lab 1\Lab1 - LungCT\Lab
 imageFormat = '.mhd';
 filename ='training_mask';
 [volCT_mask, ~] = imageRead(folder, imageFormat, filename);
-%perfusion_masked = out_img.*
+inv_mask_HU_scale = -min(min(min(volCT_post.data))).*(~volCT_mask.data);
+inv_mask_HU_scale(inv_mask_HU_scale == 0) = 1;
+perfusion_mask = apply_mask(out_img,volCT_mask.data);
+perfusion_masked_image = image_subtraction(perfusion_masked,inv_mask_HU_scale);
+transparency_mask = volCT_mask.data;
+transparency_mask(transparency_mask == 0) = [];
 
-for i_slice = 1:286
-    perfusion_masked(:,:,i_slice) = out_img(:,:,i_slice).*volCT_mask.data(:,:,i_slice);
+for i_slice = [80 143 200]
+    figure
+    sgtitle(strcat('Lung CT - Slice', 32, num2str(i_slice)))
+    subplot(2,2,1)
+    hold on
+    imshow(volCT_pre.data(:,:,i_slice),[min(min(volCT_pre.data(:,:,i_slice))) max(max(volCT_pre.data(:,:,i_slice)))])
+    colorbar('eastoutside')
+    clear title
+    title('Pre-Contrast Image')
+    hold off
+    subplot(2,2,2)
+    hold on
+    imshow(volCT_post.data(:,:,i_slice),[min(min(volCT_post.data(:,:,i_slice))) max(max(volCT_post.data(:,:,i_slice)))])
+    colorbar('eastoutside')
+    title('Post-Contrast Image')
+    hold off
+    subplot(2,2,3)
+    hold on
+    imshow(perfusion_masked(:,:,i_slice),[min(min(volCT_post.data(:,:,i_slice))) max(max(volCT_post.data(:,:,i_slice)))])
+    colorbar('eastoutside')
+    title('Masked Perfusion Intensity Image')
+    hold off
+    subplot(2,2,4)
+    hold on
+    imshow(volCT_pre.data(:,:,i_slice),[min(min(volCT_pre.data(:,:,i_slice))) max(max(volCT_pre.data(:,:,i_slice)))])
+    colorbar('eastoutside')
+    imshow(perfusion_mask(:,:,i_slice),[min(min(volCT_pre.data(:,:,i_slice))) max(max(volCT_pre.data(:,:,i_slice)))])
+    %image(perfusion_mask(:,:,i_slice),[min(min(volCT_pre.data(:,:,i_slice))) max(max(volCT_pre.data(:,:,i_slice)))]); %, 'AlphaData', transparency_mask(:,:,i_slice))
+    % imshow(perfusion_overlay(:,:,i_slice),[min(min(volCT_post.data(:,:,i_slice))) max(max(volCT_post.data(:,:,i_slice)))])
+    % colorbar('eastoutside')
+    title('Perfusion Image with Overlay')
+    hold off
 end
+
+
 
 %% 10x
 
