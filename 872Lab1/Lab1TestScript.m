@@ -160,3 +160,5 @@ B = 100;
 out_img = apply_point_tfrm(volBrain(:,:,12), C, B);
 [bins, freq] = intensityHistogram(out_img, 1, 0, 0, 1);
 plotHist(bins,freq, "2.3.1a: Brain 1 MRI Slice 12, C = , B = ", out_img)
+
+%% Note for scaling: B - Imin, 255/Imax
