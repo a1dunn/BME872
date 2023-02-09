@@ -9,19 +9,19 @@ clc
 folder = 'C:\Users\DunnA\Documents\YEAR4\BME872\872Labz\Mammo1';
 filename = 'mdb';
 imageFormat = '.pgm';
-fileNums = ['015'; '020'; '037'; '055'; '082'; '103'; '154'; '229'; '274'; '315'; '319'];
-for i = 1:11
+fileNums = ['015'; '020'; '154'; ];
+for i = 1:3
     [Mammo(:, :, i), info] = imageRead(folder, imageFormat, strcat(filename, fileNums(i, :)));
 end
 
 %% Problem 1 a) Open and form Histograms of original images
-for i = 1:11
+for i = 1:3
     %[bins, freq] = intensityHistogram(Mammo, i, 0, 0, 1);
     %plotHist(bins,freq, "P1 a): Mammogram and histogram: "+i, Mammo(:, :, i));
 end
 
 %% Problem 1 b): Constrast Stretching
-for i = 1:11
+for i = 1:3
     [bins1, freq1] = intensityHistogram(Mammo, i, 0, 0, 1);
     out_img2 = contrast_stretch(Mammo(:, :, i));
     [bins2, freq2] = intensityHistogram(out_img2, 1, 0, 0, 1);
