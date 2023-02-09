@@ -16,10 +16,10 @@ end
 
 if first_bin_remove == 1
     bins = min_inten:max_inten;
-    freq = zeros(1, max_inten+1+min_inten);
+    freq = zeros(1, max_inten+1-min_inten);
 else
     bins = min_inten:max_inten;
-    freq = zeros(1, max_inten+1+min_inten);
+    freq = zeros(1, max_inten+1-min_inten);
 end
 if mode == 0  
     for i = 1:x
