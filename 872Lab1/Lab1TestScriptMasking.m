@@ -1,8 +1,7 @@
-close all
-clear all
-clc
-%folder = 'C:\Users\cassi\OneDrive\Documents\BME 872\Labs\Lab 1\Lab1 - LungCT\Lab1 - LungCT';
-folder = 'C:\Users\DunnA\Documents\YEAR4\BME872\872Labz\LungCT';
+%% Masking
+
+folder = 'C:\Users\cassi\OneDrive\Documents\BME 872\Labs\Lab 1\Lab1 - LungCT\Lab1 - LungCT';
+%folder = 'C:\Users\DunnA\Documents\YEAR4\BME872\872Labz\LungCT';
 filename = 'training_post';
 imageFormat = '.mhd';
 [volCT, infoCT] = imageRead(folder, imageFormat, filename);

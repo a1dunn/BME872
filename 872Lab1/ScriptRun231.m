@@ -1,6 +1,3 @@
-close all
-clear all
-clc
 %% Intensity, Scaling and Shifting
 
 %folder = 'C:\Users\cassi\OneDrive\Documents\BME 872\Labs\Lab 1\Lab1 - LungCT\Lab1 - LungCT';
