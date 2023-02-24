@@ -8,7 +8,7 @@ for i = 2:length(freq)
 end
 
 % normalize the cdf to the range [0, 1]
-cdf = cdf / numel(img);
+cdf = cdf / max(cdf);
 
 % Apply the transformation function to compute the equalized image
 out_img = uint8(255 * cdf(double(img) + 1));
