@@ -14,7 +14,7 @@ for i = 1:3
     [Mammo(:, :, i), info] = imageRead(folder, imageFormat, strcat(filename, fileNums(i, :)));
 end
 
-square_size = 200;
+square_size = 100;
 
 
 %% Problem 6

@@ -11,6 +11,6 @@ end
 cdf = cdf / max(cdf);
 
 % Apply the transformation function to compute the equalized image
-out_img = uint8(255 * cdf(double(img) + 1));
+out_img = uint8(255 * cdf(double(img) + 1- bins(1)));
 
 end
