@@ -6,7 +6,7 @@ img = double(img);
 
 for i_row = 1:numcol
     for j_col = 1:numrow
-        out_img(i_row,j_col) = T(out_img(i_row,j_col)+1);
+        out_img(i_row,j_col) = T(img(i_row,j_col)+1);
     end
 end
     
