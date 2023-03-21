@@ -100,7 +100,7 @@ end
 %% Apply derivative filters to select images
 
 filter_names = {'central' 'forward' 'prewitt' 'sobel'};
-save_slice_loc = 15;
+save_slice_loc = 1;
 for i_slice = [5]
     
     for filter_num = 1:4

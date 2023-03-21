@@ -28,29 +28,16 @@ add_col_right = img_expanded(:,num_col_img+1:num_col_img+n_add_col);
 add_col_right = flip(add_col_right,2);
 img_expanded(:,end-n_add_col+1:end) = add_col_right;
 
+h_rot = rot90(h,2);
 %% Apply spatial filter
 
-% row_count = 1;
-% col_count = 1;
-% for i_row = 1:num_row_img
-%     i_row
-%     for j_col = 1:num_col_img
-%         img_out(row_count,col_count) = sum(sum(h.*img_expanded(i_row:i_row+num_row_h-1,j_col:j_col+num_col_h-1)));
-%         row_count = row_count + 1;
-%         col_count = row_count + 1;
-%     end
-% end
-
-row_count = 1;
-col_count = 1;
 for i_row = 1:num_row_img
     i_row
     for j_col = 1:num_col_img
-        img_out(i_row,j_col) = sum(conv2(img_expanded(i_row:i_row+num_row_h-1,j_col:j_col+num_col_h-1), h, 'same'), 'all');
-        %col_count = row_count + 1;
+        current_conv = conv2(img_expanded(i_row:i_row+num_row_h-1,j_col:j_col+num_col_h-1), h_rot, 'same');
+        img_out(i_row,j_col) = current_conv(1+n_add_row,1+n_add_col);
+        %img_out(row_count,col_count) = sum(sum(h.*img_expanded(i_row:i_row+num_row_h-1,j_col:j_col+num_col_h-1)));
     end
-    %row_count = row_count + 1;
 end
 
 end
-
