@@ -1,37 +1,37 @@
 %%% BME 872 LAB 1 PROBLEM 2 %%%
 
-clear all
-close all
-clc
+% clear all
+% close all
+% clc
 
 %% Load all images, convert them to grayscale, and save them into three arrays (one per dataset)
 
 %filepathroot = 'C:\Users\cassi\OneDrive\Documents\BME 872\Labs\Lab 3';
-filepathroot = 'C:\Users\DunnA\Documents\YEAR4\BME872\872Labz';
-filepaths = {'\diabetic_retinopathy', '\glaucoma', '\healthy'};
-fileabreviations = {'dr', 'g', 'h'};
+% filepathroot = 'C:\Users\DunnA\Documents\YEAR4\BME872\872Labz';
+% filepaths = {'\diabetic_retinopathy', '\glaucoma', '\healthy'};
+% fileabreviations = {'dr', 'g', 'h'};
 
-for dataset = 3
-    for image_num = 1:15
-        if image_num < 10
-            current_num = strcat('0',num2str(image_num));
-        else
-            current_num = num2str(image_num);
-        end
-        current_img = imread(strcat(filepathroot,filepaths{dataset},'\',current_num,'_',fileabreviations{dataset},'.jpg'));
-        img_db = im2double(current_img); % converts image into type double
-        grey_img = rgb2gray(img_db);
-        current_array(:,:,image_num) = grey_img;
-    end
-    
-    if dataset ==1
-        img_dr = current_array;
-    elseif dataset == 2
-        img_g = current_array;
-    elseif dataset == 3
-        img_h = current_array;
-    end
-end
+% for dataset = 3
+%     for image_num = 1:15
+%         if image_num < 10
+%             current_num = strcat('0',num2str(image_num));
+%         else
+%             current_num = num2str(image_num);
+%         end
+%         current_img = imread(strcat(filepathroot,filepaths{dataset},'\',current_num,'_',fileabreviations{dataset},'.jpg'));
+%         img_db = im2double(current_img); % converts image into type double
+%         grey_img = rgb2gray(img_db);
+%         current_array(:,:,image_num) = grey_img;
+%     end
+%     
+%     if dataset ==1
+%         img_dr = current_array;
+%     elseif dataset == 2
+%         img_g = current_array;
+%     elseif dataset == 3
+%         img_h = current_array;
+%     end
+% end
 
 
 %% Apply a smoothing filter to select images
@@ -50,7 +50,7 @@ end
 filter_names = {'central' 'forward' 'prewitt' 'sobel'};
 save_slice_loc = 1;
 for i_slice = [5]
-    filter_num = 1;
+    filter_num = 4;
         
     [kernel, ~] = derivative_kernel(filter_names{filter_num}, 'x');
     grad_x = spatial_filter(img_h_s(:,:,save_slice_loc),kernel);

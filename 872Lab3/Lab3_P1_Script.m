@@ -64,7 +64,7 @@ end
 h = [1 4 7 4 1; 4 20 33 20 4; 7 33 55 33 7; 4 20 33 20 4; 1 4 7 4 1];
 
 save_slice_loc = 1;
-for i_slice = [5 10 15]
+for i_slice = [5]
     img_h_s(:,:,save_slice_loc) = (1/331).*spatial_filter(img_h(:,:,i_slice),h);
     figure
     subplot(1,2,1)
@@ -99,11 +99,12 @@ end
 
 %% Apply derivative filters to select images
 
+
 filter_names = {'central' 'forward' 'prewitt' 'sobel'};
 save_slice_loc = 1;
 for i_slice = [5]
     
-    for filter_num = 1:4
+    for filter_num = 4
         
         [kernel, ~] = derivative_kernel(filter_names{filter_num}, 'x');
         grad_x = spatial_filter(img_h_s(:,:,save_slice_loc),kernel);
@@ -152,6 +153,8 @@ for i_slice = [5]
         title('Gradient Magnitude')
         hold off
         sgtitle(strcat('Retinal Image - Healthy - Frame', 32, num2str(i_slice), 32, '- Kernel:', 32, filter_title))
+    
+
     end
     save_slice_loc = save_slice_loc + 1 ;
     
