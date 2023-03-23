@@ -237,11 +237,14 @@ for i_slice = [5]
     
     nms_norm = normalize(grad_mag, 'range');
     
+    
     %% Apply thresholds
     
-    for T = [0.25 0.5 0.75]
+    for T = [0.18]
         
-        out_thresholded = image_threshold(nms_norm,T);
+        Tupper = 0.9;
+        
+        out_thresholded = image_threshold(out33,Tupper,T);
         
         figure
         subplot(1,3,1)
@@ -284,6 +287,21 @@ for i_slice = [5]
         ylim([1500 2500])
         hold off
         sgtitle(strcat('Retinal Image - Healthy - Frame', 32, num2str(i_slice), 32, '- Kernel:', 32, filter_title))
+        
+        figure
+        hold on
+        imshow(out_thresholded,[])
+        title(strcat('Thresholded Image', 32, '- T =', 32, num2str(T)))
+        xlim([800 1800])
+        ylim([1500 2500])
+        hold off
+        
+                figure
+        hold on
+        imshow(out_thresholded,[])
+        title(strcat('Thresholded Image', 32, '- T =', 32, num2str(T)))
+        hold off
+        
         
     end
     
