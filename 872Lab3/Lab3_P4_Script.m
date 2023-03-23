@@ -1,4 +1,4 @@
-%%% BME 872 LAB 1 PROBLEM 2 %%%
+%%% BME 872 LAB 1 PROBLEM 4 %%%
 
 % clear all
 % close all
@@ -7,9 +7,9 @@
 %% Load all images, convert them to grayscale, and save them into three arrays (one per dataset)
 
 %filepathroot = 'C:\Users\cassi\OneDrive\Documents\BME 872\Labs\Lab 3';
-% filepathroot = 'C:\Users\DunnA\Documents\YEAR4\BME872\872Labz';
-% filepaths = {'\diabetic_retinopathy', '\glaucoma', '\healthy'};
-% fileabreviations = {'dr', 'g', 'h'};
+ filepathroot = 'C:\Users\DunnA\Documents\YEAR4\BME872\872Labz';
+ filepaths = {'\diabetic_retinopathy', '\glaucoma', '\healthy'};
+ fileabreviations = {'dr', 'g', 'h'};
 
 for dataset = 2
     for image_num = 1:15
@@ -32,7 +32,27 @@ for dataset = 2
         img_h = current_array;
     end
 end
-=======
+for dataset = 2
+    for image_num = 1:15
+        if image_num < 10
+            current_num = strcat('0',num2str(image_num));
+        else
+            current_num = num2str(image_num);
+        end
+        current_img = imread(strcat('C:\Users\DunnA\Documents\YEAR4\BME872\872Labz\healthy_manualsegm','\',current_num,'_',fileabreviations{dataset},'.tif'));
+        img_db = im2double(current_img); % converts image into type double
+        %grey_img = rgb2gray(img_db);
+        current_array(:,:,image_num) = img_db;
+    end
+    
+    if dataset ==1
+        img_dr_val = current_array;
+    elseif dataset == 2
+        img_g_val = current_array;
+    elseif dataset == 3
+        img_h_val = current_array;
+    end
+end
 % for dataset = 3
 %     for image_num = 1:15
 %         if image_num < 10
@@ -54,7 +74,7 @@ end
 %         img_h = current_array;
 %     end
 % end
->>>>>>> e98aae3b0e1f387c3241d231d148ca9ee00257ca
+
 
 
 %% Apply a smoothing filter to select images
@@ -72,11 +92,11 @@ end
 
 filter_names = {'central' 'forward' 'prewitt' 'sobel'};
 save_slice_loc = 1;
-<<<<<<< HEAD
-for i_slice = [1]
-=======
+
+
+
 for i_slice = [5]
->>>>>>> e98aae3b0e1f387c3241d231d148ca9ee00257ca
+
     filter_num = 4;
         
     [kernel, ~] = derivative_kernel(filter_names{filter_num}, 'x');
@@ -127,6 +147,54 @@ for i_slice = [5]
     title('Non-Maxima Suppression with 3x7 Window')
     hold off
     sgtitle(strcat('Retinal Image - Healthy - Frame', 32, num2str(i_slice), 32, '- Kernel:', 32, filter_title))
+    for T = [0.01 0.005 0.02]
+        
+        out_thresholded = image_threshold(out33,T);
+        
+        figure
+        subplot(1,3,1)
+        hold on
+        imshow(grad_mag,[])
+        title('Original Gradient Magnitude')
+        hold off
+        subplot(1,3,2)
+        hold on
+        imshow(out33,[]) % IMPORTANT: update based on selected NMS
+        title('Non-Maxima Suppression with 3x3 Window') % IMPORTANT: update based on selected NMS
+        hold off
+        subplot(1,3,3)
+        hold on
+        imshow(out_thresholded,[])
+        title(strcat('Thresholded Image', 32, '- T =', 32, num2str(T)))
+        hold off
+        sgtitle(strcat('Retinal Image - Healthy - Frame', 32, num2str(i_slice), 32, '- Kernel:', 32, filter_title))
+        
+        figure
+        subplot(1,3,1)
+        hold on
+        imshow(grad_mag,[])
+        title('Original Gradient Magnitude')
+        xlim([800 1800])
+        ylim([1500 2500])
+        hold off
+        subplot(1,3,2)
+        hold on
+        imshow(out33,[]) % IMPORTANT: update based on selected NMS
+        title('Non-Maxima Suppression with 3x3 Window') % IMPORTANT: update based on selected NMS
+        xlim([800 1800])
+        ylim([1500 2500])
+        hold off
+        subplot(1,3,3)
+        hold on
+        imshow(out_thresholded,[])
+        title(strcat('Thresholded Image', 32, '- T =', 32, num2str(T)))
+        xlim([800 1800])
+        ylim([1500 2500])
+        hold off
+        sgtitle(strcat('Retinal Image - Healthy - Frame', 32, num2str(i_slice), 32, '- Kernel:', 32, filter_title))
+        calculateDice(img_g_val, out_thresholded)
+        
+    end
     
     save_slice_loc = save_slice_loc + 1 ;
     
