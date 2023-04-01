@@ -1,0 +1,17 @@
+function [E] = imageQuality_edge(img, plotting)
+
+h = [1 4 7 4 1; 4 20 33 20 4; 7 33 55 33 7; 4 20 33 20 4; 1 4 7 4 1];
+img_smooth = (1/331).*spatial_filter(img,h);
+
+% Apply x-direction kernel
+[kernel, ~] = derivative_kernel(filter_names{filter_num}, 'x');
+grad_x = spatial_filter(img_smooth,kernel);
+
+% Apply y-direction kernel
+[kernel, filter_title] = derivative_kernel(filter_names{filter_num}, 'y');
+grad_y = spatial_filter(img_smooth,kernel);
+
+% Calculate gradient magnitude
+grad_mag = (grad_y.^2 + grad_x.^2).^(1/2);
+
+end
