@@ -55,11 +55,11 @@ ground_truth_MR = [repmat(1,1,mr_sli); repmat(2,1,mr_sli); repmat(3,1,mr_sli); r
 figure;
 hold on
 plot(ground_truth_MR(1, :),E_MR(1, :),'.', 'Color', [10 162 173]./255)
-plot(ground_truth_MR(2, :),E_MR(2, :),'.', 'Color', [1 154 72]./255)
-plot(ground_truth_MR(3, :),E_MR(3, :),'.', 'Color', [32 0 177]./255)
-plot(ground_truth_MR(4, :),E_MR(4, :),'.', 'Color', [206 13 103]./255)
-plot(ground_truth_MR(5, :),E_MR(5, :),'.', 'Color', [206 13 103]./255)
-plot(ground_truth_MR(6, :),E_MR(6, :),'.', 'Color', [206 13 103]./255)
+plot(ground_truth_MR(2, :),E_MR(2, :),'.', 'Color', [10 162 173]./255)
+plot(ground_truth_MR(3, :),E_MR(3, :),'.', 'Color', [10 162 173]./255)
+plot(ground_truth_MR(4, :),E_MR(4, :),'.', 'Color', [10 162 173]./255)
+plot(ground_truth_MR(5, :),E_MR(5, :),'.', 'Color', [10 162 173]./255)
+plot(ground_truth_MR(6, :),E_MR(6, :),'.', 'Color', [10 162 173]./255)
 title('Edge Metric Versus Increasing Noise: Brain MRI 2')
 xlabel('Noise Level')
 ylabel('Edge Metric')
