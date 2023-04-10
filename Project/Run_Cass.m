@@ -19,6 +19,68 @@ for i_frames_brain_MRI = 1:6
     MRI_data(:, :, i_frames_brain_MRI) = img;
 end
 
+%% Plot Original CT Images and Normalized Intensity Histograms 
+
+figure
+hold on
+imshow(CT_data(:, :, 4).data(:,:,143),[])
+title('1x Noise - Pre-Contrast')
+hold off
+
+figure
+hold on
+title('1x Noise - Post-Contrast')
+ax = gca;
+hold off
+
+figure
+hold on
+imshow(CT_data(:, :, 2).data(:,:,143),[])
+title('0.5x Noise')
+hold off
+
+figure
+hold on
+imshow(CT_data(:, :, 3).data(:,:,143),[])
+title('10x Noise')
+hold off
+
+[bins,freq] = intensityHistogram(CT_data(:, :, 4).data, 143, 0, 1, 0);
+figure
+hold on
+bar(bins,freq,'FaceColor', [83 183 170]./255)
+title('1x Noise - Pre-Contrast')
+ylabel('Normalized Frequency')
+xlabel('Intensity')
+hold off
+
+[bins,freq] = intensityHistogram(CT_data(:, :, 1).data, 143, 0, 1, 0);
+figure
+hold on
+bar(bins,freq,'FaceColor', [83 183 170]./255)
+title('1x Noise - Post-Contrast')
+ylabel('Normalized Frequency')
+xlabel('Intensity')
+hold off
+
+[bins,freq] = intensityHistogram(CT_data(:, :, 2).data, 143, 0, 1, 0);
+figure
+hold on
+bar(bins,freq,'FaceColor', [83 183 170]./255)
+title('0.5x Noise')
+ylabel('Normalized Frequency')
+xlabel('Intensity')
+hold off
+
+[bins,freq] = intensityHistogram(CT_data(:, :, 3).data, 143, 0, 1, 0);
+figure
+hold on
+bar(bins,freq,'FaceColor', [83 183 170]./255)
+title('10x Noise')
+ylabel('Normalized Frequency')
+xlabel('Intensity')
+hold off
+
 %% Noise quantification - CT
 
 [ct_row, ct_col, ct_sli] = size(double(CT_data(:, :, 1).data));
@@ -26,9 +88,15 @@ end
 loop_index = 1;
 for CTfiles = 1:4
     for slice_num = 1:ct_sli
-    N1(loop_index) = imageQuality_noise(double(CT_data(:, :, CTfiles).data(:,:,slice_num)), 1,0);
-    N2(loop_index) = imageQuality_noise(double(CT_data(:, :, CTfiles).data(:,:,slice_num)), 2,0);
-    N3(loop_index) = imageQuality_noise(double(CT_data(:, :, CTfiles).data(:,:,slice_num)), 3,0);
+        slice_num
+        if slice_num == 143 && CTfiles == 1
+            plot_fig = 1;
+        else
+            plot_fig = 0;
+        end
+    N1(loop_index) = imageQuality_noise(double(CT_data(:, :, CTfiles).data(:,:,slice_num)), 1,0,plot_fig);
+    N2(loop_index) = imageQuality_noise(double(CT_data(:, :, CTfiles).data(:,:,slice_num)), 2,0,plot_fig);
+    N3(loop_index) = imageQuality_noise(double(CT_data(:, :, CTfiles).data(:,:,slice_num)), 3,0,plot_fig);
     loop_index = loop_index +1;
     end
 end
@@ -71,6 +139,99 @@ xlabel('Ground Truth Noise')
 ylabel('Noise Metric')
 legend('training post', 'noise 0.5x post', 'noise 10x post', 'training pre19mm')
 hold off
+
+%% Plot Original CT Images and Normalized Intensity Histograms 
+
+figure
+hold on
+imshow(MRI_data(1,1,1).vol(:,:,90),[])
+title('Noise Level 1')
+hold off
+
+figure
+hold on
+imshow(MRI_data(1,1,2).vol(:,:,90),[])
+title('Noise Level 2')
+hold off
+
+figure
+hold on
+imshow(MRI_data(1,1,3).vol(:,:,90),[])
+title('Noise Level 3')
+hold off
+
+figure
+hold on
+imshow(MRI_data(1,1,4).vol(:,:,90),[])
+title('Noise Level 4')
+hold off
+
+figure
+hold on
+imshow(MRI_data(1,1,5).vol(:,:,90),[])
+title('Noise Level 5')
+hold off
+
+figure
+hold on
+imshow(MRI_data(1,1,6).vol(:,:,90),[])
+title('Noise Level 6')
+hold off
+
+[bins,freq] = intensityHistogram(MRI_data(1,1,1).vol(:,:,:), 90, 0, 1, 1);
+figure
+hold on
+bar(bins,freq,'FaceColor', [83 183 170]./255)
+title('Noise Level 1')
+ylabel('Normalized Frequency')
+xlabel('Intensity')
+hold off
+
+[bins,freq] = intensityHistogram(MRI_data(1,1,2).vol(:,:,:), 90, 0, 1, 1);
+figure
+hold on
+bar(bins,freq,'FaceColor', [83 183 170]./255)
+title('Noise Level 2')
+ylabel('Normalized Frequency')
+xlabel('Intensity')
+hold off
+
+[bins,freq] = intensityHistogram(MRI_data(1,1,3).vol(:,:,:), 90, 0, 1, 1);
+figure
+hold on
+bar(bins,freq,'FaceColor', [83 183 170]./255)
+title('Noise Level 3')
+ylabel('Normalized Frequency')
+xlabel('Intensity')
+hold off
+
+[bins,freq] = intensityHistogram(MRI_data(1,1,4).vol(:,:,:), 90, 0, 1, 1);
+figure
+hold on
+bar(bins,freq,'FaceColor', [83 183 170]./255)
+title('Noise Level 4')
+ylabel('Normalized Frequency')
+xlabel('Intensity')
+hold off
+
+[bins,freq] = intensityHistogram(MRI_data(1,1,5).vol(:,:,:), 90, 0, 1, 1);
+figure
+hold on
+bar(bins,freq,'FaceColor', [83 183 170]./255)
+title('Noise Level 5')
+ylabel('Normalized Frequency')
+xlabel('Intensity')
+hold off
+
+[bins,freq] = intensityHistogram(MRI_data(1,1,6).vol(:,:,:), 90, 0, 1, 1);
+figure
+hold on
+bar(bins,freq,'FaceColor', [83 183 170]./255)
+title('Noise Level 6')
+ylabel('Normalized Frequency')
+xlabel('Intensity')
+hold off
+
 
 %% Noise quantification - MRI 
 
