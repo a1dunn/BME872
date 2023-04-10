@@ -14,32 +14,36 @@ function [kernel, filter_title] = derivative_kernel(name, direction)
 %       kernel: requested derivative filter kernel
 %       filter_title: name of the filter for figure title
 
+% Provide the central difference kernel
 if strcmp('central',name)
     filter_title = 'Central Difference';
-    if strcmp(direction,'y')
+    if strcmp(direction,'y') % Kernel for vertical edge detection
         kernel = [1 0 -1];
-    elseif strcmp(direction,'x')
+    elseif strcmp(direction,'x') % Kernel for horizontal edge detection
         kernel = [1 0 -1]';
     end
+% Provide the forward difference kernel
 elseif strcmp('forward',name)
     filter_title = 'Forward Difference';
-    if strcmp(direction,'y')
+    if strcmp(direction,'y') % Kernel for vertical edge detection
         kernel = [0 1 -1];
-    elseif strcmp(direction,'x')
+    elseif strcmp(direction,'x') % Kernel for horizontal edge detection
         kernel = [0 1 -1]';
     end
+% Provide the Prewitt kernel
 elseif strcmp('prewitt',name)
     filter_title = 'Prewitt';
-    if strcmp(direction,'y')
+    if strcmp(direction,'y') % Kernel for vertical edge detection
         kernel = [1 0 -1; 1 0 -1; 1 0 -1];
-    elseif strcmp(direction,'x')
+    elseif strcmp(direction,'x') % Kernel for horizontal edge detection
         kernel = [-1 -1 -1; 0 0 0; 1 1 1];
     end
+% Provide the Sobel kernel
 elseif strcmp('sobel',name)
     filter_title = 'Sobel';
-    if strcmp(direction,'y')
+    if strcmp(direction,'y') % Kernel for vertical edge detection
         kernel = [1 0 -1; 2 0 -2; 1 0 -1];
-    elseif strcmp(direction,'x')
+    elseif strcmp(direction,'x') % Kernel for horizontal edge detection
         kernel = [1 2 1; 0 0 0; -1 -2 -1];
     end
 end

@@ -240,9 +240,9 @@ hold off
 loop_index = 1;
 for MRIfiles = 1:6
     for slice_num = 1:mri_sli
-    N1_MRI(loop_index) = imageQuality_noise(double(MRI_data(1,1,MRIfiles).vol(:,:,slice_num)), 3,1);
-    N2_MRI(loop_index) = imageQuality_noise(double(MRI_data(1,1,MRIfiles).vol(:,:,slice_num)), 2,1);
-    N3_MRI(loop_index) = imageQuality_noise(double(MRI_data(1,1,MRIfiles).vol(:,:,slice_num)), 2,1);
+    N1_MRI(loop_index) = imageQuality_noise(double(MRI_data(1,1,MRIfiles).vol(:,:,slice_num)), 3,1,0);
+    N2_MRI(loop_index) = imageQuality_noise(double(MRI_data(1,1,MRIfiles).vol(:,:,slice_num)), 2,1,0);
+    N3_MRI(loop_index) = imageQuality_noise(double(MRI_data(1,1,MRIfiles).vol(:,:,slice_num)), 2,1,0);
     loop_index = loop_index +1;
     end
 end
